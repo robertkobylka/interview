@@ -5,7 +5,6 @@ namespace App\UI\Api;
 use App\Application\Notification\Command\CreateNotificationCommand;
 use App\Application\Notification\Command\DeleteNotificationCommand;
 use App\Domain\Notification\NotificationService;
-use App\Infrastructure\Shared\Bus\CommandBus;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -51,7 +50,7 @@ class NotificationController extends AbstractController
     public function delete(int $id): JsonResponse
     {
         try {
-            $this->exec(new DeleteNotificationCommand($id));
+            $this->service->delete(new DeleteNotificationCommand($id));
 
             return $this->json(['success' => true], Response::HTTP_NO_CONTENT);
         } catch (Throwable $e) {
